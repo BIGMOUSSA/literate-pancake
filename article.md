@@ -24,7 +24,10 @@ header-includes: |
     
 ---
 
-# Foo:
+# C'est quoi un "descriptors"
+# Pourquoi l'utilise t-on ?
+# Comment l'utiliser ?
+# Pour aller plus loin ....
 
 foo bar baz
 
@@ -35,4 +38,15 @@ a = 42
 
 def bar(x):
     print(x)
+  
+class Ten :
+    def __get__(self,obj,objtype=None):
+        return 10
+class A :
+    x = 5
+    y = Ten()
+
+a=A()
+print(a.x)
+print(a.y)
 ```
