@@ -183,7 +183,8 @@ obj.x=4  # ici aussi
 
 
 # Pourquoi l'utilise t-on ?
+no add just testing pdf output
 # Comment l'utiliser ?
 # Pour aller plus loin ....
-
+# Conclusion
 
