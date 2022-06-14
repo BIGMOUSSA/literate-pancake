@@ -176,6 +176,7 @@ class Myclass():
     x = MyDescriptor() # On vient d'instancier notre premier descriptor ): ,
 
 ```
+
 Le desriptor est très pratique ça nous permet d'interagir avec notre attribut à l'aide de fonctions pratiques.
 
 ```Python
