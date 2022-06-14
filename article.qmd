@@ -47,7 +47,7 @@ class Cercle():  # definition de ma classe Cercle
     def __init__(self,rayon) :
         self.rayon = rayon
 
-mycercle=Cercle(2) # j'instancie un object de la classe Cercle
+mon_cercle=Cercle(2) # j'instancie un object de la classe Cercle
 print(mon_cercle.rayon) # Affiche le rayon du cercle
 print(mon_cercle.PI) # Affiche la constante PI=3,14
 
