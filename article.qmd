@@ -154,7 +154,7 @@ Pour résumé ici lorsque nous  accédons aux attributs dans de cette façon, ce
 
 De manière simple le "descriptor" s'écrive comme suit :
 
-```{python}
+```Python
 descr.__get__(self,obj,type=None)-->value
 descr.__set__(self,obj,value)-->None
 descr.__delete__(self,obj)-->None
@@ -216,7 +216,6 @@ class MyDescriptor(object):
     def __set__(self,obj,val):
         self.data=val
 
-
 class Myclass(object):
     val=MyDescriptor()
 
@@ -234,8 +233,8 @@ En procédant ainsi, on ré-implémente la même valeur encore et encore sans  l
 Le problème c'est que telque définit le descriptor ne connait pas le nom de l'attribut dans lequel le descriptor est instancié.
 
 En faisant 
-```{python}
-val = Mydecriptor()
+```Python
+val = Mydescriptor()
 
 ```
 le descripteur ne connait pas à priori que c'est `val` qui l'appelle. On peut contourner le problème en se répétant un peu : on donne 
@@ -243,7 +242,7 @@ le descripteur ne connait pas à priori que c'est `val` qui l'appelle. On peut c
 
 Comme suit :
 
-```{python}
+```Python
 class Myclass():
 val = MyDescriptor("val") 
 ```
@@ -385,7 +384,7 @@ Regardons un autre cas pratique où l'utilisation d'un descriptor est très reco
 Chaque variable est bien définit avec des règle derrières. Ces règles sont ré-utilisables dans d'autres class de noms différents.
 
 
-```{python}
+```Python
 class Person(object):
     id = PrimaryKeyField()
     name = VarCharField(max_lenght=255)
