@@ -28,7 +28,7 @@ header-includes: |
 # Introduction
 
 
-Python est un logiciel de programmation très avancée. Il offre de nombreux outils qui rendent  nous la vie facile et qui permet de faire des choses extraordinaires. Parmi les multiples facilités il y'a les méthodes magiques telque `__get__`, `__add__`, les décorateurs `@staticmethod`, `@property` etc. La maitrise de ces outils rend la programmation orientée objet dans python beaucoup plus fun. Cependant, un developeur python qui utilise ses outils  se rendra un jour compte qu'il lui faut plus. Autrement dit, il va falloir remuer ces outils pour  voir ce qui se cache réellement derrière. C'est à ce moment seulement qu'il pourra les adapter pour une utilisation plus approfondi et plus personnelle. Par exemple la manipulation des attributs d'un objet d'une classe à travers la méthode  @property se trouve dans certains cas inadaptée. Il faudra faire appelle à une méthode appelé "Descriptor" pour plus de souplesse et de réutilisabilité. Dans ce présent article, il sera question d'explorer les quelques spécificité de cette méthode. Il s'agira entre aurtre :
+Python est un logiciel de programmation très avancée. Il offre de nombreux outils qui rendent  nous la vie facile et qui permet de faire des choses extraordinaires. Parmi les multiples facilités il y'a les méthodes magiques telque `__get__`, `__add__`, les décorateurs `@staticmethod`, `@property` etc. La maitrise de ces outils rend la programmation orientée objet dans python beaucoup plus fun. Cependant, un developeur python qui utilise ses outils  se rendra un jour compte qu'il lui faut plus. Autrement dit, il va falloir remuer ces outils pour  voir ce qui se cache réellement derrière. C'est à ce moment seulement qu'il pourra les adapter pour une utilisation plus approfondi et plus personnelle. Par exemple la manipulation des attributs d'un objet d'une classe à travers la méthode  @property se trouve dans certains cas inadaptée. Il faudra faire appelle à une méthode appelé "Descriptor" pour plus de souplesse et de réutilisabilité. Dans ce présent article, il sera question d'explorer les quelques spécificité de cette méthode. Il s'agira entre autre :
   - de présenter la relation entre classe, objet et attribut
   - présenter la méthode @property
   - de definir les descriptors
@@ -110,7 +110,7 @@ class Circle():
     PI = 3.14
     def __init__(self,radius):
         self.radius = radius
- #Super @property nous sauve la vuie
+ #Super @property nous sauve la vie
     @property
     def circumference(self):
         return 2*self.radius*self.PI
@@ -122,8 +122,8 @@ print(mycircle.circumference) # Fixed!
 ```
 Ainsi, On peut ajouter des getters et des setters dans notre classe pour garder nos attributs aussi simple que possibles
 tout en intégrant des propriétés super puissantes.
-Cependant, savez vous comment ça fonctionne réellement
-Aussi, est-ce toujour suffisant pour faire le travail proprement ?
+Cependant, savez vous comment ça fonctionne réellement?
+Aussi, est-ce toujours suffisant pour faire le travail proprement ?
 
 
 # III-  C'est quoi un "descriptor"
