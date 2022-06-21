@@ -28,7 +28,7 @@ header-includes: |
 # Introduction
 
 
-Python est un logiciel de programmation très avancée. Il offre de nombreux outils qui rendent  nous la vie facile et qui permet de faire des choses extraordinaires. Parmi les multiples facilités il y'a les méthodes magiques telque `__get__`, `__add__`, les décorateurs `@staticmethod`, `@property` etc. La maitrise de ces outils rend la programmation orientée objet dans python beaucoup plus fun. Cependant, un developeur python qui utilise ses outils  se rendra un jour compte qu'il lui faut plus. Autrement dit, il va falloir remuer ces outils pour  voir ce qui se cache réellement derrière. C'est à ce moment seulement qu'il pourra les adapter pour une utilisation plus approfondi et plus personnelle. Par exemple la manipulation des attributs d'un objet d'une classe à travers la méthode  @property se trouve dans certains cas inadaptée. Il faudra faire appelle à une méthode appelé "Descriptor" pour plus de souplesse et de réutilisabilité. Dans ce présent article, il sera question d'explorer les quelques spécificité de cette méthode. Il s'agira entre autre :
+Python est un logiciel de programmation très avancée. Il offre de nombreux outils  pratiques et qui nous permettent de programmer intuitivement. Parmi les multiples facilités il y'a les méthodes magiques telque `__get__`, `__add__`, les décorateurs `@staticmethod`, `@property` etc. La maitrise de ces outils rend la programmation orientée objet dans python beaucoup plus fun. Cependant, un developeur python qui utilise ses outils  se rendra un jour compte qu'il lui faut plus. Autrement dit, il va falloir remuer ces outils pour  voir ce qui se cache réellement derrière. C'est à ce moment seulement qu'il pourra les adapter pour une utilisation plus approfondi et plus personnelle. Par exemple la manipulation des attributs d'un objet d'une classe à travers la méthode  @property se trouve dans certains cas inadaptée. Il faudra faire appelle à une méthode appelé "Descriptor" pour plus de souplesse et de réutilisabilité. Dans ce présent article, il sera question d'explorer les quelques spécificité de cette méthode. Il s'agira entre autre :
   - de présenter la relation entre classe, objet et attribut
   - présenter la méthode @property
   - de definir les descriptors
@@ -127,13 +127,13 @@ Aussi, est-ce toujours suffisant pour faire le travail proprement ?
 
 
 # III-  C'est quoi un "descriptor"
+Les descripteurs sont des objets Python qui implémentent au moins une méthode du `descriptor protocol` ( `__get__`, `__set__` ou `__delete__`), ce qui vous donne la possibilité de créer des objets qui ont un comportement spécial lorsqu'ils sont accédés en tant qu'attributs d'autres objets.
 
-Un "descriptor" est tout attribut d'object dans lequel est implémenté dans son `descriptor protocol` au moins une de ces méthodes à savoir `__get__`, `__set__` ou `__delete__` 
 On appelle `__data-descriptor__` un descriptor qui implémente à la fois la méthode `__get__` et `__set__`. Un descriptor qui implémentes seulement la méthode
 `__get__`  est un `non-data-descriptor`.
 Pour créer un descripteur de données en lecture seule, définissez à la fois `__get__()` et `__set__()` avec le `__set__()` générant une AttributeError lorsqu'il est appelé. Définir la méthode `__set__()` avec une exception suffit à en faire un descripteur de données.
 
-## C'est quoi un desciptor protocol ?
+## Comment ça fonctionne ?
 
 Ce qu'il faut retenir est quand vous appelez un attribut `foo` de votre object `obj` à travers la méthode `obj.foo`, python suit un protocole bien 
 defini et bien hierarchisé pour retrouvé l'attribut en question. En effet, il commence par :
@@ -152,13 +152,13 @@ Pour résumé ici lorsque nous  accédons aux attributs dans de cette façon, ce
 
 ## Comment écrire un descriptors
 
-De manière simple le "descriptor" s'écrive comme suit :
+
+De manière simple le "descriptor protocol" s'écrit comme suit 
 
 ```Python
 descr.__get__(self,obj,type=None)-->value
 descr.__set__(self,obj,value)-->None
 descr.__delete__(self,obj)-->None
-
 ```
 C'est tout ce qu'il y a à faire. Définissez l'une de ces méthodes et un objet est considéré comme un descripteur et peut remplacer le comportement par défaut lorsqu'il est recherché en tant qu'attribut.
 
@@ -304,7 +304,7 @@ Serais-je dans une situation qui m'obligerait à utiliser un descriptor ?
 
 # V-	Descriptors vs @property
 
-Malheurement, l'utilisation de la méthode `@propriété` n'est pas recommandé dans tous les cas où vous devez intercepter l'accès aux attributs.
+Malheurement, l'utilisation de la méthode `@propriété` n'est pas recommandée dans tous les cas où vous devez intercepter l'accès aux attributs.
 Imaginons une classe qui doit stocker divers montants en dollars dans des attributs. Puisque les montants sont en
 décimal, on nous demande de les stocker avec seulement un ou deux chiffres après la virgule. 
 
@@ -330,6 +330,13 @@ class BankTransaction(object):
     @before.setter
     def before(self,val):
         self.before = str(val)
+    # Copier coller !
+    @property
+    def after(self):
+        return Decimal(self._after).quantize(self._cent,ROUND_UP)
+    @after.setter
+    def after(self,val):
+        self.after = str(val)  
 
 ```
 Ainsi, on fera du copier coller de getters et de setter encore et encore pour chaque variable. Ce qui en programmation
@@ -379,7 +386,7 @@ dev_cfa.after=90.12354
 print("REGARDONS LA NOUVELLE VALEUR DE APRES")
 print(dev_cfa.after)
 ```
-### CAS PRATIQUES
+###  CAS PRATIQUE : définition des variables
 
 Regardons un autre cas pratique où l'utilisation d'un descriptor est très recommandé : la définition des variables d'une base de donnée.
 
@@ -402,7 +409,7 @@ class NickName(objectj):
 Ceci nous est vaquement familier n'est ce pas !
 
 
-# Pour aller plus loin
+# En résumé
 
 Dans cet articel, il a été question de faire une biève présentation  des descriptors qui semble complexe vu de loin mais ô combien
 puissant pour rendre notre code succinct et réutilisable. Cependant, nous n'avons pas pu couvrit tous les champs d'applicabilité des
