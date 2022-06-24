@@ -1,30 +1,47 @@
 ---
 title: |
-  "DESCRIPTORS."
-date: May, 2022
+  ![](./img/Logo.png){width=2in}
+
+  "Les descriptors dans Python."
+date: April, 2022
 lang: en-EN
 urlcolor: blue
-geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
-documentclass: article
-fontfamily: Alegreya
+#geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
+#documentclass: article
+#fontfamily: Alegreya
+author: MOUSSA DIALLO
+abstract: A PAPER ON PYTHON DESCRIPTORS
+thanks: THANKS TO PATRICK NSUKAMI 
+#code-line-numbers: true
+latex-output-dir: output
+format: 
+  pdf: 
+    documentclass: article
+    #highlight-style: haddock
+    #classoption: [twocolumn, landscape]
+    toc: true
+    #lof: true
+    #lot: true
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+    fontfamily: libertinus
+    colorlinks: true
+output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
 header-includes: |
     \usepackage{fancyhdr}
     \pagestyle{fancy}
     \fancyhf{}
     \rhead{Dakar Institute of Technology}
-    \lhead{Moussa DIALLO}
+    \lhead{MOUSSA DIALLO STUDENT AT MASTER AI I}
     \rfoot{Page \thepage}
-    \hypersetup{pdftex,
-            pdfauthor={Moussa DIALLO},
-            pdftitle={DESCRIPTORS},
-            pdfsubject={Python programming},
-            pdfkeywords={Python, Programming,descriptor,propertie,class,method},
-            pdfproducer={Emacs, Pandoc, Latex, Markdown},
-            pdfcreator={Emacs, Pandoc, Latex, Markdown}}
-    
+
 ---
 
+\pagebreak
 
+\pagebreak
 # Introduction
 
 
@@ -386,8 +403,9 @@ dev_cfa.after=90.12354
 print("REGARDONS LA NOUVELLE VALEUR DE APRES")
 print(dev_cfa.after)
 ```
-###  CAS PRATIQUE : définition des variables
+###  CAS PRATIQUE : 
 
+#### : définition des variables
 Regardons un autre cas pratique où l'utilisation d'un descriptor est très recommandé : la définition des variables d'une base de donnée.
 
 Chaque variable est bien définit avec des règle derrières. Ces règles sont ré-utilisables dans d'autres class de noms différents.
@@ -408,6 +426,92 @@ class NickName(objectj):
 
 Ceci nous est vaquement familier n'est ce pas !
 
+#### Lazy Properties
+
+Regardons un autre exemple où l'utilisation des "descriptors" est très recommandé. Il s'agit  des propriétés paresseuses. Ce sont des propriétés dont les valeurs initiales ne sont pas chargées jusqu'à ce qu'elles soient accédées pour la première fois. Ensuite, ils chargent leur valeur initiale et conservent cette valeur en cache pour une réutilisation ultérieure.
+
+Prenons l'exemple suivant. Vous avez une classe PenseeProfond qui contient une méthode essence_de_la_vie() qui renvoie une valeur après beaucoup de temps passé en forte concentration :
+
+```Python
+# slow_properties.py
+import time
+
+class PenseeProfond:
+    def essence_de_la_vie(self):
+        time.sleep(3)
+        return 42
+
+ma_PenseeProfond_instance = PenseeProfond()
+print(ma_PenseeProfond_instance.essence_de_la_vie())
+print(ma_PenseeProfond_instance.essence_de_la_vie())
+print(ma_PenseeProfond_instance.essence_de_la_vie())
+
+```
+
+Si vous exécutez ce code et essayez d'accéder à la méthode trois fois, vous obtenez une réponse toutes les trois secondes, ce qui correspond à la durée du temps de veille à l'intérieur de la méthode.
+
+Désormais, une propriété paresseuse peut à la place évaluer cette méthode une seule fois lors de sa première exécution. Ensuite, il mettra en cache la valeur résultante afin que, si vous en avez à nouveau besoin, vous puissiez l'obtenir en un rien de temps. Vous pouvez y parvenir en utilisant des descripteurs Python :
+
+```Python
+# lazy_properties.py
+import time
+
+class LazyProperty:
+    def __init__(self, function):
+        self.function = function
+        self.name = function.__name__
+
+    def __get__(self, obj, type=None) -> object:
+        obj.__dict__[self.name] = self.function(obj)
+        return obj.__dict__[self.name]
+
+class PenseeProfond:
+    @LazyProperty
+    def essence_de_la_vie(self):
+        time.sleep(3)
+        return 42
+
+ma_PenseeProfond_instance = PenseeProfond()
+print(ma_PenseeProfond_instance.essence_de_la_vie)
+print(ma_PenseeProfond_instance.essence_de_la_vie)
+print(ma_PenseeProfond_instance.essence_de_la_vie)
+```
+
+Regardons ensemble la puissance des descripteurs. Dans cet exemple, lorsque le descripteur @LazyProperty est utilisé, on instancie un descripteur en lui transmettant  .essence_de_la_vie(). Ce descripteur stocke à la fois la méthode et son nom en tant que variables d'instance.
+
+Puisqu'il s'agit d'un `non-data descriptor`, lorsque vous accédez pour la première fois à la valeur de l'attribut essence_de_la_vie, .__get__() est automatiquement appelé et exécute .essence_de_la_vie() sur l'objet ma_PenseeProfond_instance. La valeur résultante est stockée dans l'attribut __dict__ de l'objet lui-même. Lorsque vous accédez à nouveau à l'attribut essence_de_la_vie, Python utilisera la chaîne de recherche pour trouver une valeur pour cet attribut dans l'attribut __dict__, et cette valeur sera renvoyée immédiatement.
+
+Il faudra noter que si l'astuce a marché c'est parce que dans cet exemple nous avons implémenté que la méthode  .__get__() du protocole de descripteur et donc c'est un `non-data descripteur`.  Si à la place on avait  implémenté `data descripteur`, l'astuce n'aurait pas fonctionné. Après la chaîne de recherche, elle aurait eu priorité sur la valeur stockée dans __dict__. Pour tester cela, exécutez le code suivant :
+
+```Python
+# wrong_lazy_properties.py
+import time
+
+class LazyProperty:
+    def __init__(self, function):
+        self.function = function
+        self.name = function.__name__
+
+    def __get__(self, obj, type=None) -> object:
+        obj.__dict__[self.name] = self.function(obj)
+        return obj.__dict__[self.name]
+
+    def __set__(self, obj, value):
+        pass
+
+class PenseeProfond:
+    @LazyProperty
+    def essence_de_la_vie(self):
+        time.sleep(3)
+        return 42
+
+ma_PenseeProfond_instance = PenseeProfond()
+print(ma_PenseeProfond_instance.essence_de_la_vie)
+print(ma_PenseeProfond_instance.essence_de_la_vie)
+print(ma_PenseeProfond_instance.essence_de_la_vie)
+```
+
+Dans cet exemple, vous pouvez voir que le simple fait d'implémenter .__set__(), même s'il ne fait rien du tout, crée un descripteur de données. Maintenant, l'astuce de la propriété paresseuse cesse de fonctionner.
 
 # En résumé
 
