@@ -6,11 +6,11 @@ title: |
 date: April, 2022
 lang: en-EN
 urlcolor: blue
-#geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
+
 #documentclass: article
 #fontfamily: Alegreya
 author: MOUSSA DIALLO
-abstract: A PAPER ON PYTHON DESCRIPTORS
+#abstract: A PAPER ON PYTHON DESCRIPTORS
 thanks: THANKS TO PATRICK NSUKAMI 
 #code-line-numbers: true
 latex-output-dir: output
@@ -22,10 +22,7 @@ format:
     toc: true
     #lof: true
     #lot: true
-    geometry:
-      - top=30mm
-      - left=20mm
-      - heightrounded
+    geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
     fontfamily: libertinus
     colorlinks: true
 output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
@@ -41,11 +38,9 @@ header-includes: |
 
 \pagebreak
 
-\pagebreak
 # Introduction
 
-
-Python est un logiciel de programmation très avancée. Il offre de nombreux outils  pratiques et qui nous permettent de programmer intuitivement. Parmi les multiples facilités il y'a les méthodes magiques telque `__get__`, `__add__`, les décorateurs `@staticmethod`, `@property` etc. La maitrise de ces outils rend la programmation orientée objet dans python beaucoup plus fun. Cependant, un developeur python qui utilise ses outils  se rendra un jour compte qu'il lui faut plus. Autrement dit, il va falloir remuer ces outils pour  voir ce qui se cache réellement derrière. C'est à ce moment seulement qu'il pourra les adapter pour une utilisation plus approfondi et plus personnelle. Par exemple la manipulation des attributs d'un objet d'une classe à travers la méthode  @property se trouve dans certains cas inadaptée. Il faudra faire appelle à une méthode appelé "Descriptor" pour plus de souplesse et de réutilisabilité. Dans ce présent article, il sera question d'explorer les quelques spécificité de cette méthode. Il s'agira entre autre :
+Python est un logiciel de programmation très avancée. Il offre de nombreux outils pratiques et qui nous permettent de programmer intuitivement. Parmi les multiples facilités il y'a les méthodes magiques telque `__get__`, `__add__`, les décorateurs `@staticmethod`, `@property` etc. La maitrise de ces outils rend la programmation orientée objet dans python beaucoup plus fun. Cependant, un developeur python qui utilise ses outils  se rendra un jour compte qu'il lui faut plus. Autrement dit, il va falloir remuer ces outils pour  voir ce qui se cache réellement derrière. C'est à ce moment seulement qu'il pourra les adapter pour une utilisation plus approfondi et plus personnelle. Par exemple la manipulation des attributs d'un objet d'une classe à travers la méthode  @property se trouve dans certains cas inadaptée. Il faudra faire appelle à une méthode appelé "Descriptor" pour plus de souplesse et de réutilisabilité. Dans ce présent article, il sera question d'explorer les quelques spécificité de cette méthode. Il s'agira entre autre :
   - de présenter la relation entre classe, objet et attribut
   - présenter la méthode @property
   - de definir les descriptors
@@ -56,7 +51,7 @@ Python est un logiciel de programmation très avancée. Il offre de nombreux out
 
 Nous savons tous la liaison entre une classe et un objet
 
-```Python
+```{python}
 
 class Cercle():  # definition de ma classe Cercle
 
@@ -78,7 +73,7 @@ renvoyer une valeur stocké dans un dictionnaire de l'object.
 
 Comme on peut le vérifier à traver le code suivant
 
-```Python
+```{python}
 
 print(mon_cercle.__dict__)
 
@@ -89,7 +84,7 @@ print(mon_cercle.__dict__)
 Cependant, de la même manière on pouvait accéder à l'attribut directement au niveau de la class.
 Cet attribut est enregistré dans un dictionnaire cet fois ci de la classe.
 
-```Python
+```{python}
 print(Cercle.PI)
 print(Cercle.__dict__)
 print(mon_cercle.PI)
@@ -99,7 +94,7 @@ print(mon_cercle.PI)
 Parfois les attributs ne sont pas suffisants. Nous avons besoin de procédés plus puissant. Regardons ensemble 
 une des limites des attributs.
 
-```Python
+```{python}
 class Circle():
     PI = 3.14
     def __init__(self,radius):
@@ -122,7 +117,7 @@ print(mycircle.circumference) # Oops la circonférence ne change pas
 
 A l'aide de la magie des décorateurs on sait comment contourner le problème,n'est ce pas !.
 
-```Python
+```{python}
 class Circle():
     PI = 3.14
     def __init__(self,radius):
@@ -144,6 +139,7 @@ Aussi, est-ce toujours suffisant pour faire le travail proprement ?
 
 
 # III-  C'est quoi un "descriptor"
+
 Les descripteurs sont des objets Python qui implémentent au moins une méthode du `descriptor protocol` ( `__get__`, `__set__` ou `__delete__`), ce qui vous donne la possibilité de créer des objets qui ont un comportement spécial lorsqu'ils sont accédés en tant qu'attributs d'autres objets.
 
 On appelle `__data-descriptor__` un descriptor qui implémente à la fois la méthode `__get__` et `__set__`. Un descriptor qui implémentes seulement la méthode
@@ -169,19 +165,19 @@ Pour résumé ici lorsque nous  accédons aux attributs dans de cette façon, ce
 
 ## Comment écrire un descriptors
 
-
-De manière simple le "descriptor protocol" s'écrit comme suit 
+De manière simple le "descriptor protocol" s'écrit comme suit :
 
 ```Python
 descr.__get__(self,obj,type=None)-->value
 descr.__set__(self,obj,value)-->None
 descr.__delete__(self,obj)-->None
+
 ```
 C'est tout ce qu'il y a à faire. Définissez l'une de ces méthodes et un objet est considéré comme un descripteur et peut remplacer le comportement par défaut lorsqu'il est recherché en tant qu'attribut.
 
 Ecrivons notre premier descriptor :
 
-```Python
+```{python}
 
 class MyDescriptor():
     def __get__(self,obj,type):
@@ -193,10 +189,9 @@ class Myclass():
     x = MyDescriptor() # On vient d'instancier notre premier descriptor ): ,
 
 ```
-
 Le desriptor est très pratique ça nous permet d'interagir avec notre attribut à l'aide de fonctions pratiques.
 
-```Python
+```{python}
 
 obj= Myclass()
 
@@ -227,13 +222,12 @@ Avec, les descripteur on peut stocker la valeur des attributs à l'intérieur.
 Cependant, regardons ensemble ce code et essayons de trouver ce qui ne va pas!
 
 
-```Python
+```{python}
 class MyDescriptor(object):
     def __get__(self,obj,type):
         return self.data
     def __set__(self,obj,val):
         self.data=val
-
 
 class Myclass(object):
     val=MyDescriptor()
@@ -253,7 +247,7 @@ Le problème c'est que telque définit le descriptor ne connait pas le nom de l'
 
 En faisant 
 ```Python
-val = Mydecriptor()
+val = Mydescriptor()
 
 ```
 le descripteur ne connait pas à priori que c'est `val` qui l'appelle. On peut contourner le problème en se répétant un peu : on donne 
@@ -270,7 +264,7 @@ val = MyDescriptor("val")
 ## Ainsi il faudra adapter notre descriptor
 Avec cette méthode on exige le nom de l'attribut à chaque appelle de la classe.
 
-```Python
+```{python}
 class MyDescriptor():
     def __init__(self,field=""):
         self.field = field
@@ -290,7 +284,7 @@ Pour résumé, a chaque fois que `obj.x` est exécuté il va  interpeler le desc
 
 ## Si seulement on maitrisait les métaclasse !
 
-```Python
+```{python}
 def named_descriptors(kclass):
     for name, attr in kclass.__dict__.items():
         if isinstance(attr,MyDescriptor):
@@ -313,23 +307,23 @@ print(obj.x)
 
 > Tous ça c'est compliqué, et si on continuait à utiliser les @property
 
-La magie propertie est génial et facile à implémenter de même que `@staticmethod` et de `@classmethod`, pourquoi se casser la
-tête avec les decriptor. Les `@properties` font l'essentiel avec un simple interface pour API complexe.
+La magie `@property` est génial et facile à implémenter de même que `@staticmethod` et de `@classmethod`, pourquoi se casser la
+tête avec les decriptor. Les `@property` font l'essentiel avec un simple interface pour API complexe.
 Serais-je dans une situation qui m'obligerait à utiliser un descriptor ?
 
 > La response est oui !
 
 # V-	Descriptors vs @property
 
-Malheurement, l'utilisation de la méthode `@propriété` n'est pas recommandée dans tous les cas où vous devez intercepter l'accès aux attributs.
+Malheurement, l'utilisation de la méthode `@property` n'est pas recommandé dans tous les cas où vous devez intercepter l'accès aux attributs.
 Imaginons une classe qui doit stocker divers montants en dollars dans des attributs. Puisque les montants sont en
 décimal, on nous demande de les stocker avec seulement un ou deux chiffres après la virgule. 
 
-:raised_hand: Essayons de ressoudre le problème avec la méthode `@property`
+ Essayons de ressoudre le problème avec la méthode `@property`
 
 ## Avec un peu de copier coller !
 
-```Python
+```{python}
 
 from decimal import Decimal, ROUND_UP
 from locale import currency
@@ -358,14 +352,16 @@ class BankTransaction(object):
 ```
 Ainsi, on fera du copier coller de getters et de setter encore et encore pour chaque variable. Ce qui en programmation
 est très déconseillé puisque ça allourdi les codes pour rien. A
+
 ## répétez les getters et les setters passe-partout encore et encore
 
- :running: NON, NON... Je pensais que @property était censé me sauver du code passe-partout ! :joy:
+
+  NON, NON... Je pensais que @property était censé me sauver du code passe-partout ! 
 
 
 Avec le descriptor c'est beaucoup plus simple, avec un code réutilisable pour chaque variable.
 
-```Python
+```{python}
 
 class CurrencyField():
      #_cent = Decimal(self.pos)
@@ -403,9 +399,12 @@ dev_cfa.after=90.12354
 print("REGARDONS LA NOUVELLE VALEUR DE APRES")
 print(dev_cfa.after)
 ```
-###  CAS PRATIQUE : 
 
-#### : définition des variables
+
+## CAS PRATIQUES
+
+### définition des variables
+
 Regardons un autre cas pratique où l'utilisation d'un descriptor est très recommandé : la définition des variables d'une base de donnée.
 
 Chaque variable est bien définit avec des règle derrières. Ces règles sont ré-utilisables dans d'autres class de noms différents.
@@ -426,13 +425,13 @@ class NickName(objectj):
 
 Ceci nous est vaquement familier n'est ce pas !
 
-#### Lazy Properties
+### Lazy Properties
 
 Regardons un autre exemple où l'utilisation des "descriptors" est très recommandé. Il s'agit  des propriétés paresseuses. Ce sont des propriétés dont les valeurs initiales ne sont pas chargées jusqu'à ce qu'elles soient accédées pour la première fois. Ensuite, ils chargent leur valeur initiale et conservent cette valeur en cache pour une réutilisation ultérieure.
 
 Prenons l'exemple suivant. Vous avez une classe PenseeProfond qui contient une méthode essence_de_la_vie() qui renvoie une valeur après beaucoup de temps passé en forte concentration :
 
-```Python
+```{python}
 # slow_properties.py
 import time
 
@@ -442,9 +441,18 @@ class PenseeProfond:
         return 42
 
 ma_PenseeProfond_instance = PenseeProfond()
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie())
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie())
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie())
+end=time.time()
+print("durée de la concentration",end-start)
 
 ```
 
@@ -452,7 +460,7 @@ Si vous exécutez ce code et essayez d'accéder à la méthode trois fois, vous 
 
 Désormais, une propriété paresseuse peut à la place évaluer cette méthode une seule fois lors de sa première exécution. Ensuite, il mettra en cache la valeur résultante afin que, si vous en avez à nouveau besoin, vous puissiez l'obtenir en un rien de temps. Vous pouvez y parvenir en utilisant des descripteurs Python :
 
-```Python
+```{python}
 # lazy_properties.py
 import time
 
@@ -472,9 +480,18 @@ class PenseeProfond:
         return 42
 
 ma_PenseeProfond_instance = PenseeProfond()
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
 ```
 
 Regardons ensemble la puissance des descripteurs. Dans cet exemple, lorsque le descripteur @LazyProperty est utilisé, on instancie un descripteur en lui transmettant  .essence_de_la_vie(). Ce descripteur stocke à la fois la méthode et son nom en tant que variables d'instance.
@@ -483,7 +500,7 @@ Puisqu'il s'agit d'un `non-data descriptor`, lorsque vous accédez pour la premi
 
 Il faudra noter que si l'astuce a marché c'est parce que dans cet exemple nous avons implémenté que la méthode  .__get__() du protocole de descripteur et donc c'est un `non-data descripteur`.  Si à la place on avait  implémenté `data descripteur`, l'astuce n'aurait pas fonctionné. Après la chaîne de recherche, elle aurait eu priorité sur la valeur stockée dans __dict__. Pour tester cela, exécutez le code suivant :
 
-```Python
+```{python}
 # wrong_lazy_properties.py
 import time
 
@@ -506,9 +523,18 @@ class PenseeProfond:
         return 42
 
 ma_PenseeProfond_instance = PenseeProfond()
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
 ```
 
 Dans cet exemple, vous pouvez voir que le simple fait d'implémenter .__set__(), même s'il ne fait rien du tout, crée un descripteur de données. Maintenant, l'astuce de la propriété paresseuse cesse de fonctionner.
