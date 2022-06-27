@@ -14,24 +14,24 @@ author: MOUSSA DIALLO
 thanks: THANKS TO PATRICK NSUKAMI 
 #code-line-numbers: true
 latex-output-dir: output
-format: 
-  pdf: 
-    documentclass: article
+#format: 
+#pdf: 
+documentclass: article
     #highlight-style: haddock
     #classoption: [twocolumn, landscape]
-    toc: true
+toc: true
     #lof: true
     #lot: true
-    geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
-    fontfamily: libertinus
-    colorlinks: true
+#geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
+#fontfamily: libertinus
+colorlinks: true
 output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
 header-includes: |
     \usepackage{fancyhdr}
     \pagestyle{fancy}
     \fancyhf{}
     \rhead{Dakar Institute of Technology}
-    \lhead{MOUSSA DIALLO STUDENT AT MASTER AI I}
+    \lhead{MOUSSA DIALLO}
     \rfoot{Page \thepage}
 
 ---
