@@ -6,11 +6,11 @@ title: |
 date: April, 2022
 lang: en-EN
 urlcolor: blue
-#geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
+
 #documentclass: article
 #fontfamily: Alegreya
 author: MOUSSA DIALLO
-abstract: A PAPER ON PYTHON DESCRIPTORS
+#abstract: A PAPER ON PYTHON DESCRIPTORS
 thanks: THANKS TO PATRICK NSUKAMI 
 #code-line-numbers: true
 latex-output-dir: output
@@ -22,10 +22,7 @@ format:
     toc: true
     #lof: true
     #lot: true
-    geometry:
-      - top=30mm
-      - left=20mm
-      - heightrounded
+    geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
     fontfamily: libertinus
     colorlinks: true
 output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
@@ -310,19 +307,19 @@ print(obj.x)
 
 > Tous ça c'est compliqué, et si on continuait à utiliser les @property
 
-La magie propertie est génial et facile à implémenter de même que `@staticmethod` et de `@classmethod`, pourquoi se casser la
-tête avec les decriptor. Les `@properties` font l'essentiel avec un simple interface pour API complexe.
+La magie `@property` est génial et facile à implémenter de même que `@staticmethod` et de `@classmethod`, pourquoi se casser la
+tête avec les decriptor. Les `@property` font l'essentiel avec un simple interface pour API complexe.
 Serais-je dans une situation qui m'obligerait à utiliser un descriptor ?
 
 > La response est oui !
 
 # V-	Descriptors vs @property
 
-Malheurement, l'utilisation de la méthode `@propriété` n'est pas recommandé dans tous les cas où vous devez intercepter l'accès aux attributs.
+Malheurement, l'utilisation de la méthode `@property` n'est pas recommandé dans tous les cas où vous devez intercepter l'accès aux attributs.
 Imaginons une classe qui doit stocker divers montants en dollars dans des attributs. Puisque les montants sont en
 décimal, on nous demande de les stocker avec seulement un ou deux chiffres après la virgule. 
 
-:raised_hand: Essayons de ressoudre le problème avec la méthode `@property`
+ Essayons de ressoudre le problème avec la méthode `@property`
 
 ## Avec un peu de copier coller !
 
@@ -355,9 +352,11 @@ class BankTransaction(object):
 ```
 Ainsi, on fera du copier coller de getters et de setter encore et encore pour chaque variable. Ce qui en programmation
 est très déconseillé puisque ça allourdi les codes pour rien. A
+
 ## répétez les getters et les setters passe-partout encore et encore
 
- :running: NON, NON... Je pensais que @property était censé me sauver du code passe-partout ! :joy:
+
+  NON, NON... Je pensais que @property était censé me sauver du code passe-partout ! 
 
 
 Avec le descriptor c'est beaucoup plus simple, avec un code réutilisable pour chaque variable.
@@ -402,9 +401,9 @@ print(dev_cfa.after)
 ```
 
 
-### CAS PRATIQUES
+## CAS PRATIQUES
 
-#### définition des variables
+### définition des variables
 
 Regardons un autre cas pratique où l'utilisation d'un descriptor est très recommandé : la définition des variables d'une base de donnée.
 
@@ -426,7 +425,7 @@ class NickName(objectj):
 
 Ceci nous est vaquement familier n'est ce pas !
 
-#### Lazy Properties
+### Lazy Properties
 
 Regardons un autre exemple où l'utilisation des "descriptors" est très recommandé. Il s'agit  des propriétés paresseuses. Ce sont des propriétés dont les valeurs initiales ne sont pas chargées jusqu'à ce qu'elles soient accédées pour la première fois. Ensuite, ils chargent leur valeur initiale et conservent cette valeur en cache pour une réutilisation ultérieure.
 
@@ -442,9 +441,18 @@ class PenseeProfond:
         return 42
 
 ma_PenseeProfond_instance = PenseeProfond()
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie())
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie())
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie())
+end=time.time()
+print("durée de la concentration",end-start)
 
 ```
 
@@ -472,9 +480,18 @@ class PenseeProfond:
         return 42
 
 ma_PenseeProfond_instance = PenseeProfond()
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
 ```
 
 Regardons ensemble la puissance des descripteurs. Dans cet exemple, lorsque le descripteur @LazyProperty est utilisé, on instancie un descripteur en lui transmettant  .essence_de_la_vie(). Ce descripteur stocke à la fois la méthode et son nom en tant que variables d'instance.
@@ -506,9 +523,18 @@ class PenseeProfond:
         return 42
 
 ma_PenseeProfond_instance = PenseeProfond()
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
+start=time.time()
 print(ma_PenseeProfond_instance.essence_de_la_vie)
+end=time.time()
+print("durée de la concentration",end-start)
 ```
 
 Dans cet exemple, vous pouvez voir que le simple fait d'implémenter .__set__(), même s'il ne fait rien du tout, crée un descripteur de données. Maintenant, l'astuce de la propriété paresseuse cesse de fonctionner.
