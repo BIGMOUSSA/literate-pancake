@@ -51,7 +51,7 @@ Python est un logiciel de programmation très avancée. Il offre de nombreux out
 
 Nous savons tous la liaison entre une classe et un objet
 
-```{python}
+```Python
 
 class Cercle():  # definition de ma classe Cercle
 
@@ -73,7 +73,7 @@ renvoyer une valeur stocké dans un dictionnaire de l'object.
 
 Comme on peut le vérifier à traver le code suivant
 
-```{python}
+```Python
 
 print(mon_cercle.__dict__)
 
@@ -84,7 +84,7 @@ print(mon_cercle.__dict__)
 Cependant, de la même manière on pouvait accéder à l'attribut directement au niveau de la class.
 Cet attribut est enregistré dans un dictionnaire cet fois ci de la classe.
 
-```{python}
+```Python
 print(Cercle.PI)
 print(Cercle.__dict__)
 print(mon_cercle.PI)
@@ -94,7 +94,7 @@ print(mon_cercle.PI)
 Parfois les attributs ne sont pas suffisants. Nous avons besoin de procédés plus puissant. Regardons ensemble 
 une des limites des attributs.
 
-```{python}
+```Python
 class Circle():
     PI = 3.14
     def __init__(self,radius):
@@ -117,7 +117,7 @@ print(mycircle.circumference) # Oops la circonférence ne change pas
 
 A l'aide de la magie des décorateurs on sait comment contourner le problème,n'est ce pas !.
 
-```{python}
+```Python
 class Circle():
     PI = 3.14
     def __init__(self,radius):
@@ -177,7 +177,7 @@ C'est tout ce qu'il y a à faire. Définissez l'une de ces méthodes et un objet
 
 Ecrivons notre premier descriptor :
 
-```{python}
+```Python
 
 class MyDescriptor():
     def __get__(self,obj,type):
@@ -191,7 +191,7 @@ class Myclass():
 ```
 Le desriptor est très pratique ça nous permet d'interagir avec notre attribut à l'aide de fonctions pratiques.
 
-```{python}
+```Python
 
 obj= Myclass()
 
@@ -222,7 +222,7 @@ Avec, les descripteur on peut stocker la valeur des attributs à l'intérieur.
 Cependant, regardons ensemble ce code et essayons de trouver ce qui ne va pas!
 
 
-```{python}
+```Python
 class MyDescriptor(object):
     def __get__(self,obj,type):
         return self.data
@@ -264,7 +264,7 @@ val = MyDescriptor("val")
 ## Ainsi il faudra adapter notre descriptor
 Avec cette méthode on exige le nom de l'attribut à chaque appelle de la classe.
 
-```{python}
+```Python
 class MyDescriptor():
     def __init__(self,field=""):
         self.field = field
@@ -284,7 +284,7 @@ Pour résumé, a chaque fois que `obj.x` est exécuté il va  interpeler le desc
 
 ## Si seulement on maitrisait les métaclasse !
 
-```{python}
+```Python
 def named_descriptors(kclass):
     for name, attr in kclass.__dict__.items():
         if isinstance(attr,MyDescriptor):
@@ -323,7 +323,7 @@ décimal, on nous demande de les stocker avec seulement un ou deux chiffres apr�
 
 ## Avec un peu de copier coller !
 
-```{python}
+```Python
 
 from decimal import Decimal, ROUND_UP
 from locale import currency
@@ -361,7 +361,7 @@ est très déconseillé puisque ça allourdi les codes pour rien. A
 
 Avec le descriptor c'est beaucoup plus simple, avec un code réutilisable pour chaque variable.
 
-```{python}
+```Python
 
 class CurrencyField():
      #_cent = Decimal(self.pos)
@@ -431,7 +431,7 @@ Regardons un autre exemple où l'utilisation des "descriptors" est très recomma
 
 Prenons l'exemple suivant. Vous avez une classe PenseeProfond qui contient une méthode essence_de_la_vie() qui renvoie une valeur après beaucoup de temps passé en forte concentration :
 
-```{python}
+```Python
 # slow_properties.py
 import time
 
@@ -460,7 +460,7 @@ Si vous exécutez ce code et essayez d'accéder à la méthode trois fois, vous 
 
 Désormais, une propriété paresseuse peut à la place évaluer cette méthode une seule fois lors de sa première exécution. Ensuite, il mettra en cache la valeur résultante afin que, si vous en avez à nouveau besoin, vous puissiez l'obtenir en un rien de temps. Vous pouvez y parvenir en utilisant des descripteurs Python :
 
-```{python}
+```Python
 # lazy_properties.py
 import time
 
@@ -500,7 +500,7 @@ Puisqu'il s'agit d'un `non-data descriptor`, lorsque vous accédez pour la premi
 
 Il faudra noter que si l'astuce a marché c'est parce que dans cet exemple nous avons implémenté que la méthode  .__get__() du protocole de descripteur et donc c'est un `non-data descripteur`.  Si à la place on avait  implémenté `data descripteur`, l'astuce n'aurait pas fonctionné. Après la chaîne de recherche, elle aurait eu priorité sur la valeur stockée dans __dict__. Pour tester cela, exécutez le code suivant :
 
-```{python}
+```Python
 # wrong_lazy_properties.py
 import time
 
