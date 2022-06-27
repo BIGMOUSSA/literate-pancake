@@ -3,8 +3,8 @@ title: |
   ![](./img/Logo.png){width=2in}
 
   "Les descriptors dans Python."
-date: April, 2022
-lang: en-EN
+date: Juin, 2022
+lang: fr-FR
 urlcolor: blue
 
 #documentclass: article
@@ -14,14 +14,9 @@ author: MOUSSA DIALLO
 thanks: THANKS TO PATRICK NSUKAMI 
 #code-line-numbers: true
 latex-output-dir: output
-#format: 
-#pdf: 
 documentclass: article
-    #highlight-style: haddock
-    #classoption: [twocolumn, landscape]
+#highlight-style: haddock
 toc: true
-    #lof: true
-    #lot: true
 #geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
 #fontfamily: libertinus
 colorlinks: true
@@ -156,7 +151,7 @@ defini et bien hierarchisé pour retrouvé l'attribut en question. En effet, il 
     3. ou bien il va remonter dans la hierarchie pour chercher dans le type(obj).__dict__
     4. répéter ces étapes pour chaque type dans le mro (methode resolution order : montre la chaine d'héritage ) 
     si votre class a héritée d'autre classes jusqu'à ce qu'il trouve une correspondance
-    5. Si c'est une affectationn, ça crée toujours une entrée dans obj.__dict__
+    5. Si c'est une affectation, ça crée toujours une entrée dans obj.__dict__
     6. Sauf s'il y avait une propriété setter auquel cas vous appelez une fonction.
 
 
