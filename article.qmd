@@ -1,39 +1,27 @@
 ---
 title: |
   ![](./img/Logo.png){width=2in}
-
   "Les descriptors dans Python."
 date: April, 2022
-lang: en-EN
+lang: fr-FR
 urlcolor: blue
-
-#documentclass: article
-#fontfamily: Alegreya
-author: MOUSSA DIALLO
-#abstract: A PAPER ON PYTHON DESCRIPTORS
-thanks: THANKS TO PATRICK NSUKAMI 
-#code-line-numbers: true
+geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
+documentclass: article
+fontfamily: Alegreya
+author: MOUSSA DIALLO DATA ANALYST, MASTER I-AI
+abstract: Ce document est une initiation à l'utilisation des descriptors dans Python.
+thanks: THANKS TO all DIT STAFF AND PARTICULARY PATRICK NSUKAMI .
+code-line-numbers: true
+toc: true
 latex-output-dir: output
-format: 
-  pdf: 
-    documentclass: article
-    #highlight-style: haddock
-    #classoption: [twocolumn, landscape]
-    toc: true
-    #lof: true
-    #lot: true
-    geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
-    fontfamily: libertinus
-    colorlinks: true
 output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
 header-includes: |
     \usepackage{fancyhdr}
     \pagestyle{fancy}
     \fancyhf{}
     \rhead{Dakar Institute of Technology}
-    \lhead{MOUSSA DIALLO STUDENT AT MASTER AI I}
+    \lhead{MOUSSA DIALLO}
     \rfoot{Page \thepage}
-
 ---
 
 \pagebreak
@@ -156,7 +144,7 @@ defini et bien hierarchisé pour retrouvé l'attribut en question. En effet, il 
     3. ou bien il va remonter dans la hierarchie pour chercher dans le type(obj).__dict__
     4. répéter ces étapes pour chaque type dans le mro (methode resolution order : montre la chaine d'héritage ) 
     si votre class a héritée d'autre classes jusqu'à ce qu'il trouve une correspondance
-    5. Si c'est une affectationn, ça crée toujours une entrée dans obj.__dict__
+    5. Si c'est une affectation, ça crée toujours une entrée dans obj.__dict__
     6. Sauf s'il y avait une propriété setter auquel cas vous appelez une fonction.
 
 
@@ -353,7 +341,7 @@ class BankTransaction(object):
 Ainsi, on fera du copier coller de getters et de setter encore et encore pour chaque variable. Ce qui en programmation
 est très déconseillé puisque ça allourdi les codes pour rien. A
 
-## répétez les getters et les setters passe-partout encore et encore
+> répétez les getters et les setters passe-partout encore et encore
 
 
   NON, NON... Je pensais que @property était censé me sauver du code passe-partout ! 
@@ -541,6 +529,11 @@ Dans cet exemple, vous pouvez voir que le simple fait d'implémenter .__set__(),
 
 # En résumé
 
-Dans cet articel, il a été question de faire une biève présentation  des descriptors qui semble complexe vu de loin mais ô combien
+Dans cet articel, il a été question de faire une briève présentation  des descriptors qui semble complexe vu de loin mais ô combien
 puissant pour rendre notre code succinct et réutilisable. Cependant, nous n'avons pas pu couvrit tous les champs d'applicabilité des
 descriptors. c'est pourquoi je vous invite à creuser davantage sur la documentation officielle que je mettrais sur la bibliographie.
+
+# BIBLIOGRAPHY
+- [official documentation on descritpors](https://docs.python.org/3/howto/descriptor.html)
+- [Real PYTHON_descriptors](https://realpython.com/python-descriptors/ "titre de lien optionnel").
+- [simeonfranklin talk about descriptors](https://www.youtube.com/watch?v=ZdvpNaWwx24&t=95s)
