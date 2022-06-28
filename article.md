@@ -9,16 +9,16 @@ urlcolor: blue
 
 #documentclass: article
 #fontfamily: Alegreya
-author: MOUSSA DIALLO
+author: MOUSSA DIALLO DATA ANALYST, MASTER I-AI
 #abstract: A PAPER ON PYTHON DESCRIPTORS
-thanks: THANKS TO PATRICK NSUKAMI 
-#code-line-numbers: true
+thanks: THANKS TO all DIT STAFF AND PARTICULARY PATRICK NSUKAMI 
+code-line-numbers: true
 latex-output-dir: output
 documentclass: article
-#highlight-style: haddock
+highlight-style: zenburn
 toc: true
-#geometry: "left=2.5cm,right=2.5cm,top=3cm,bottom=3cm"
-#fontfamily: libertinus
+geometry: "left=3cm,right=3cm,top=3cm,bottom=3cm"
+fontfamily: libertinus
 colorlinks: true
 output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
 header-includes: |
@@ -348,7 +348,7 @@ class BankTransaction(object):
 Ainsi, on fera du copier coller de getters et de setter encore et encore pour chaque variable. Ce qui en programmation
 est très déconseillé puisque ça allourdi les codes pour rien. A
 
-## répétez les getters et les setters passe-partout encore et encore
+> répétez les getters et les setters passe-partout encore et encore
 
 
   NON, NON... Je pensais que @property était censé me sauver du code passe-partout ! 
@@ -536,6 +536,11 @@ Dans cet exemple, vous pouvez voir que le simple fait d'implémenter .__set__(),
 
 # En résumé
 
-Dans cet articel, il a été question de faire une biève présentation  des descriptors qui semble complexe vu de loin mais ô combien
+Dans cet articel, il a été question de faire une briève présentation  des descriptors qui semble complexe vu de loin mais ô combien
 puissant pour rendre notre code succinct et réutilisable. Cependant, nous n'avons pas pu couvrit tous les champs d'applicabilité des
 descriptors. c'est pourquoi je vous invite à creuser davantage sur la documentation officielle que je mettrais sur la bibliographie.
+
+# BIBLIOGRAPHY
+- [official documentation on descritpors](https://docs.python.org/3/howto/descriptor.html)
+- [Real PYTHON_descriptors](https://realpython.com/python-descriptors/ "titre de lien optionnel").
+- [simeonfranklin talk about descriptors](https://www.youtube.com/watch?v=ZdvpNaWwx24&t=95s)
