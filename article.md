@@ -7,20 +7,19 @@ date: Juin, 2022
 lang: fr-FR
 urlcolor: blue
 
-#documentclass: article
-#fontfamily: Alegreya
+documentclass: article
+fontfamily: Alegreya
 author: MOUSSA DIALLO DATA ANALYST, MASTER I-AI
-#abstract: A PAPER ON PYTHON DESCRIPTORS
+abstract: Ce document est une initiation à l'utilisation des descriptors dans Python.
 thanks: THANKS TO all DIT STAFF AND PARTICULARY PATRICK NSUKAMI 
 code-line-numbers: true
 latex-output-dir: output
-documentclass: article
 #highlight-style: zenburn
 toc: true
 geometry: "left=3cm,right=3cm,top=3cm,bottom=3cm"
-fontfamily: libertinus
+#fontfamily: libertinus
 colorlinks: true
-output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
+#output-file: MOUSSA_DIALLO_DESCRIPTORS.pdf
 header-includes: |
     \usepackage{fancyhdr}
     \pagestyle{fancy}
