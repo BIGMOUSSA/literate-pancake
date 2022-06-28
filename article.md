@@ -15,7 +15,7 @@ thanks: THANKS TO all DIT STAFF AND PARTICULARY PATRICK NSUKAMI
 code-line-numbers: true
 latex-output-dir: output
 documentclass: article
-highlight-style: zenburn
+#highlight-style: zenburn
 toc: true
 geometry: "left=3cm,right=3cm,top=3cm,bottom=3cm"
 fontfamily: libertinus
