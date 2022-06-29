@@ -11,7 +11,7 @@ documentclass: article
 fontfamily: Alegreya
 author: MOUSSA DIALLO DATA ANALYST, MASTER I-AI
 abstract: Ce document est une initiation à l'utilisation des descriptors dans Python.
-thanks: THANKS TO all DIT STAFF AND PARTICULARY PATRICK NSUKAMI 
+thanks: THANKS TO all DIT STAFF AND PARTICULARY TO PATRICK NSUKAMI 
 code-line-numbers: true
 latex-output-dir: output
 #highlight-style: zenburn
@@ -41,7 +41,7 @@ Python est un logiciel de programmation très avancée. Il offre de nombreux out
   - de présenter ses champs d'applicabilté
   - de voir dans quel cas l’utilisation des « descriptors » est recommandée
 
-# I-	Classe,object et attribut
+# I-	Classe, objet et attribut
 
 Nous savons tous la liaison entre une classe et un objet
 
@@ -53,17 +53,17 @@ class Cercle():  # definition de ma classe Cercle
     def __init__(self,rayon) :
         self.rayon = rayon
 
-mon_cercle=Cercle(2) # j'instancie un object de la classe Cercle
+mon_cercle=Cercle(2) # j'instancie un objet de la classe Cercle
 print(mon_cercle.rayon) # Affiche le rayon du cercle
 print(mon_cercle.PI) # Affiche la constante PI=3,14
 
 ```
-Quand est-il de la liasion entre l'attribues d'un object et celui d'une classe
+Quand est-il de la liasion entre l'attribues d'un objet et celui d'une classe
 
-## Comment acceder à l'attribut d'un OBJECT
+## Comment acceder à l'attribut d'un OBJET
 
-Quand on voulait afficher le rayon de l'object `mon_cercle` on a juste écrit `mon_cercle.rayon`. ceci ne fait que
-renvoyer une valeur stocké dans un dictionnaire de l'object.
+Quand on voulait afficher le rayon de l'objet `mon_cercle` on a juste écrit `mon_cercle.rayon`. ceci ne fait que
+renvoyer une valeur stocké dans un dictionnaire de l'objet.
 
 Comme on peut le vérifier à traver le code suivant
 
@@ -142,7 +142,7 @@ Pour créer un descripteur de données en lecture seule, définissez à la fois 
 
 ## Comment ça fonctionne ?
 
-Ce qu'il faut retenir est quand vous appelez un attribut `foo` de votre object `obj` à travers la méthode `obj.foo`, python suit un protocole bien 
+Ce qu'il faut retenir est quand vous appelez un attribut `foo` de votre objet `obj` à travers la méthode `obj.foo`, python suit un protocole bien 
 defini et bien hierarchisé pour retrouvé l'attribut en question. En effet, il commence par :
 
     1. chercher Le résultat de la propriété du même nom si elle est définie
@@ -201,7 +201,7 @@ obj.x=4  # ici aussi
 ## Plus de détails sur la signatures des descriptors :
 
   - self est l'instance du descriptor
-  - obj est l'instance de l'object pour qui le descripteur est attaché
+  - obj est l'instance de l'objet pour qui le descripteur est attaché
   - type est le class avec qui le descriptor est attaché
   - __get__ peut être appelé à travers la class ou  l'objet, __set__  peut être appelé seulement à travers l'objet
 
